@@ -499,7 +499,6 @@
 									"var index = eval(pm.environment.get(\"randonNumber\"))(size);\r",
 									"\r",
 									"pm.test(\"Capturar user id\", function(){    \r",
-									"    console.log(index)\r",
 									"    pm.globals.set(\"userID\", response[index].id)\r",
 									"})"
 								],
@@ -536,7 +535,12 @@
 									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
 									"\r",
 									"var contract = pm.globals.get(\"schema\")\r",
-									"eval(pm.environment.get(\"contractTest\"))(contract);"
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"pm.test(\"Capturar informações de Login\", function(){    \r",
+									"    pm.globals.set(\"usernameLogin\", response.username)\r",
+									"    pm.globals.set(\"passwordLogin\", response.password)\r",
+									"})"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -547,6 +551,8 @@
 							"script": {
 								"exec": [
 									"pm.globals.unset(\"schema\")\r",
+									"pm.globals.unset(\"usernameLogin\")\r",
+									"pm.globals.unset(\"passwordLogin\")\r",
 									"\r",
 									"pm.globals.set(\"schema\",{\r",
 									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
@@ -1217,7 +1223,6 @@
 									"var index = eval(pm.environment.get(\"randonNumber\"))(size);\r",
 									"\r",
 									"pm.test(\"Capturar user id\", function(){    \r",
-									"    console.log(index)\r",
 									"    pm.globals.set(\"productID\", response[index].id)\r",
 									"})"
 								],
@@ -1472,7 +1477,6 @@
 									"var index = eval(pm.environment.get(\"randonNumber\"))(size);\r",
 									"\r",
 									"pm.test(\"Capturar user id\", function(){    \r",
-									"    console.log(index)\r",
 									"    pm.globals.set(\"updateUserID\", response[index].id)\r",
 									"})"
 								],
@@ -1578,147 +1582,6 @@
 			"name": "Login",
 			"item": [
 				{
-					"name": "Get a single users",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var response= pm.response.json()\r",
-									"\r",
-									"var statusCode = 200\r",
-									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
-									"\r",
-									"var contract = pm.globals.get(\"schema\")\r",
-									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
-									"\r",
-									"pm.test(\"Capturar dados para login\", function(){    \r",
-									"    pm.globals.set(\"userName\", response.username)\r",
-									"    pm.globals.set(\"password\", response.password)\r",
-									"})"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"pm.globals.unset(\"schema\")\r",
-									"\r",
-									"pm.globals.set(\"schema\",{\r",
-									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
-									"  \"type\": \"object\",\r",
-									"  \"properties\": {\r",
-									"    \"address\": {\r",
-									"      \"type\": \"object\",\r",
-									"      \"properties\": {\r",
-									"        \"geolocation\": {\r",
-									"          \"type\": \"object\",\r",
-									"          \"properties\": {\r",
-									"            \"lat\": {\r",
-									"              \"type\": \"string\"\r",
-									"            },\r",
-									"            \"long\": {\r",
-									"              \"type\": \"string\"\r",
-									"            }\r",
-									"          },\r",
-									"          \"required\": [\r",
-									"            \"lat\",\r",
-									"            \"long\"\r",
-									"          ]\r",
-									"        },\r",
-									"        \"city\": {\r",
-									"          \"type\": \"string\"\r",
-									"        },\r",
-									"        \"street\": {\r",
-									"          \"type\": \"string\"\r",
-									"        },\r",
-									"        \"number\": {\r",
-									"          \"type\": \"integer\"\r",
-									"        },\r",
-									"        \"zipcode\": {\r",
-									"          \"type\": \"string\"\r",
-									"        }\r",
-									"      },\r",
-									"      \"required\": [\r",
-									"        \"geolocation\",\r",
-									"        \"city\",\r",
-									"        \"street\",\r",
-									"        \"number\",\r",
-									"        \"zipcode\"\r",
-									"      ]\r",
-									"    },\r",
-									"    \"id\": {\r",
-									"      \"type\": \"integer\"\r",
-									"    },\r",
-									"    \"email\": {\r",
-									"      \"type\": \"string\"\r",
-									"    },\r",
-									"    \"username\": {\r",
-									"      \"type\": \"string\"\r",
-									"    },\r",
-									"    \"password\": {\r",
-									"      \"type\": \"string\"\r",
-									"    },\r",
-									"    \"name\": {\r",
-									"      \"type\": \"object\",\r",
-									"      \"properties\": {\r",
-									"        \"firstname\": {\r",
-									"          \"type\": \"string\"\r",
-									"        },\r",
-									"        \"lastname\": {\r",
-									"          \"type\": \"string\"\r",
-									"        }\r",
-									"      },\r",
-									"      \"required\": [\r",
-									"        \"firstname\",\r",
-									"        \"lastname\"\r",
-									"      ]\r",
-									"    },\r",
-									"    \"phone\": {\r",
-									"      \"type\": \"string\"\r",
-									"    },\r",
-									"    \"__v\": {\r",
-									"      \"type\": \"integer\"\r",
-									"    }\r",
-									"  },\r",
-									"  \"required\": [\r",
-									"    \"address\",\r",
-									"    \"id\",\r",
-									"    \"email\",\r",
-									"    \"username\",\r",
-									"    \"password\",\r",
-									"    \"name\",\r",
-									"    \"phone\",\r",
-									"    \"__v\"\r",
-									"  ]\r",
-									"} )\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/users/{{userID}}",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"users",
-								"{{userID}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "User login",
 					"event": [
 						{
@@ -1766,7 +1629,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"{{userName}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"raw": "{\r\n    \"username\": \"{{usernameLogin}}\",\r\n    \"password\": \"{{passwordLogin}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
