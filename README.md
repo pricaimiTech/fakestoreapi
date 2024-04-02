@@ -38,12 +38,13 @@ npm install -g newman-reporter-html
 
 - Abra o console de preferência
 - Execute a seguinte linha de comando para rodar os testes
+
   ```
-  newman run ServeRest.postman_collection.json -e serveRest_env.postman_environment.json -r cli
+    newman run fakestoreapi.postman_collection.json -e fakestoreapi.postman_environment.json --iteration-data file\dataFile.csv -r cli
   ```
 - Execute os teste com relatório
  ```
-  newman run ServeRest.postman_collection.json -e serveRest_env.postman_environment.json -r cli,htmlextra
+  newman run fakestoreapi.postman_collection.json -e fakestoreapi.postman_environment.json --iteration-data file\dataFile.csv -r cli,htmlextra --reporter-htmlextra-export testResults/index.html
   ```
 
 ### Report 

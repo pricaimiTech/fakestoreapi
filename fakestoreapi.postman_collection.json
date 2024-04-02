@@ -1,0 +1,1792 @@
+{
+	"info": {
+		"_postman_id": "fce0e5c9-67a4-4fa9-a81d-6768b4704dd8",
+		"name": "fakestoreapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22955123"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Add a new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Capturar user id\", function(){    \r",
+									"    pm.globals.set(\"newUserID\", response.id)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"pm.globals.unset(\"newUserID\")\r",
+									"\r",
+									"pm.globals.set(\"email\", pm.iterationData.get(\"email\"))\r",
+									"pm.globals.set(\"username\", pm.iterationData.get(\"username\"))\r",
+									"pm.globals.set(\"password\", pm.iterationData.get(\"password\"))\r",
+									"pm.globals.set(\"firstname\", pm.iterationData.get(\"firstname\"))\r",
+									"pm.globals.set(\"lastname\", pm.iterationData.get(\"lastname\"))\r",
+									"\r",
+									"\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}) "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"name\": {\r\n        \"firstname\": \"{{firstname}}\",\r\n        \"lastname\": \"{{lastname}}\"\r\n    },\r\n    \"address\": {\r\n        \"city\": \"'kilcoole'\",\r\n        \"street\": \"'7835 new road'\",\r\n        \"number\": 3,\r\n        \"zipcode\": \"'12926-3874'\",\r\n        \"geolocation\": {\r\n            \"lat\": \"'-37.3159'\",\r\n            \"long\": \"'81.1496'\"\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"username\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"password\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"name\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"firstname\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"lastname\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"firstname\",\r",
+									"        \"lastname\"\r",
+									"      ]\r",
+									"    },\r",
+									"    \"address\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"city\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"street\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"number\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"zipcode\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"geolocation\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"lat\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"long\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"lat\",\r",
+									"            \"long\"\r",
+									"          ]\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"city\",\r",
+									"        \"street\",\r",
+									"        \"number\",\r",
+									"        \"zipcode\",\r",
+									"        \"geolocation\"\r",
+									"      ]\r",
+									"    },\r",
+									"    \"phone\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"email\",\r",
+									"    \"username\",\r",
+									"    \"password\",\r",
+									"    \"name\",\r",
+									"    \"address\",\r",
+									"    \"phone\"\r",
+									"  ]\r",
+									"}) "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"name\": {\r\n        \"firstname\": \"{{firstname}}\",\r\n        \"lastname\": \"{{lastname}}\"\r\n    },\r\n    \"address\": {\r\n        \"city\": \"'kilcoole'\",\r\n        \"street\": \"'7835 new road'\",\r\n        \"number\": 3,\r\n        \"zipcode\": \"'12926-3874'\",\r\n        \"geolocation\": {\r\n            \"lat\": \"'-37.3159'\",\r\n            \"long\": \"'81.1496'\"\r\n        }\r\n    },\r\n    \"phone\": \"1-570-236-7033\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users/{{newUserID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"{{newUserID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"address\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"geolocation\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"lat\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"long\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"lat\",\r",
+									"            \"long\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"city\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"street\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"number\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"zipcode\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"geolocation\",\r",
+									"        \"city\",\r",
+									"        \"street\",\r",
+									"        \"number\",\r",
+									"        \"zipcode\"\r",
+									"      ]\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"username\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"password\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"name\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"firstname\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"lastname\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"firstname\",\r",
+									"        \"lastname\"\r",
+									"      ]\r",
+									"    },\r",
+									"    \"phone\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"__v\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"address\",\r",
+									"    \"id\",\r",
+									"    \"email\",\r",
+									"    \"username\",\r",
+									"    \"password\",\r",
+									"    \"name\",\r",
+									"    \"phone\",\r",
+									"    \"__v\"\r",
+									"  ]\r",
+									"}) "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users/{{newUserID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"{{newUserID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"address\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"geolocation\": {\r",
+									"              \"type\": \"object\",\r",
+									"              \"properties\": {\r",
+									"                \"lat\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                },\r",
+									"                \"long\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                }\r",
+									"              },\r",
+									"              \"required\": [\r",
+									"                \"lat\",\r",
+									"                \"long\"\r",
+									"              ]\r",
+									"            },\r",
+									"            \"city\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"street\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"number\": {\r",
+									"              \"type\": \"integer\"\r",
+									"            },\r",
+									"            \"zipcode\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"geolocation\",\r",
+									"            \"city\",\r",
+									"            \"street\",\r",
+									"            \"number\",\r",
+									"            \"zipcode\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"email\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"username\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"password\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"firstname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"lastname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"firstname\",\r",
+									"            \"lastname\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"phone\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"__v\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"address\",\r",
+									"        \"id\",\r",
+									"        \"email\",\r",
+									"        \"username\",\r",
+									"        \"password\",\r",
+									"        \"name\",\r",
+									"        \"phone\",\r",
+									"        \"__v\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"} )\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"var size = response.length\r",
+									"var index = eval(pm.environment.get(\"randonNumber\"))(size);\r",
+									"\r",
+									"pm.test(\"Capturar user id\", function(){    \r",
+									"    console.log(index)\r",
+									"    pm.globals.set(\"userID\", response[index].id)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"address\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"geolocation\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"lat\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"long\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"lat\",\r",
+									"            \"long\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"city\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"street\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"number\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"zipcode\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"geolocation\",\r",
+									"        \"city\",\r",
+									"        \"street\",\r",
+									"        \"number\",\r",
+									"        \"zipcode\"\r",
+									"      ]\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"username\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"password\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"name\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"firstname\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"lastname\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"firstname\",\r",
+									"        \"lastname\"\r",
+									"      ]\r",
+									"    },\r",
+									"    \"phone\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"__v\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"address\",\r",
+									"    \"id\",\r",
+									"    \"email\",\r",
+									"    \"username\",\r",
+									"    \"password\",\r",
+									"    \"name\",\r",
+									"    \"phone\",\r",
+									"    \"__v\"\r",
+									"  ]\r",
+									"} )\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/{{userID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Limit results",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"pm.globals.set(\"userLimited\", 8)\r",
+									"\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"address\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"geolocation\": {\r",
+									"              \"type\": \"object\",\r",
+									"              \"properties\": {\r",
+									"                \"lat\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                },\r",
+									"                \"long\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                }\r",
+									"              },\r",
+									"              \"required\": [\r",
+									"                \"lat\",\r",
+									"                \"long\"\r",
+									"              ]\r",
+									"            },\r",
+									"            \"city\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"street\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"number\": {\r",
+									"              \"type\": \"integer\"\r",
+									"            },\r",
+									"            \"zipcode\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"geolocation\",\r",
+									"            \"city\",\r",
+									"            \"street\",\r",
+									"            \"number\",\r",
+									"            \"zipcode\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"email\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"username\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"password\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"firstname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"lastname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"firstname\",\r",
+									"            \"lastname\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"phone\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"__v\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"address\",\r",
+									"        \"id\",\r",
+									"        \"email\",\r",
+									"        \"username\",\r",
+									"        \"password\",\r",
+									"        \"name\",\r",
+									"        \"phone\",\r",
+									"        \"__v\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"} )\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"pm.test(\"Validar UserLimited\", function(){    \r",
+									"    pm.expect(response.length).eq(pm.globals.get(\"userLimited\"))\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users?limit={{userLimited}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "{{userLimited}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort results desc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" *  Default value is in ascending mode, you can use with 'desc' or 'asc' as you want.\r",
+									" */\r",
+									"\r",
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"pm.test(\"IDs ordenados de forma decrescente\", function() {\r",
+									"\r",
+									"    var ids = response.map(function(item) {\r",
+									"        return item.id;\r",
+									"    });\r",
+									"    var result = eval(pm.environment.get(\"isSortedDescending\"))(ids);\r",
+									"    pm.expect(result).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"address\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"geolocation\": {\r",
+									"              \"type\": \"object\",\r",
+									"              \"properties\": {\r",
+									"                \"lat\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                },\r",
+									"                \"long\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                }\r",
+									"              },\r",
+									"              \"required\": [\r",
+									"                \"lat\",\r",
+									"                \"long\"\r",
+									"              ]\r",
+									"            },\r",
+									"            \"city\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"street\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"number\": {\r",
+									"              \"type\": \"integer\"\r",
+									"            },\r",
+									"            \"zipcode\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"geolocation\",\r",
+									"            \"city\",\r",
+									"            \"street\",\r",
+									"            \"number\",\r",
+									"            \"zipcode\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"email\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"username\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"password\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"firstname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"lastname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"firstname\",\r",
+									"            \"lastname\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"phone\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"__v\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"address\",\r",
+									"        \"id\",\r",
+									"        \"email\",\r",
+									"        \"username\",\r",
+									"        \"password\",\r",
+									"        \"name\",\r",
+									"        \"phone\",\r",
+									"        \"__v\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"} )\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users?sort=desc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort results asc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" *  Default value is in ascending mode, you can use with 'desc' or 'asc' as you want.\r",
+									" */\r",
+									"\r",
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"pm.test(\"IDs ordenados de forma ascendente\", function() {\r",
+									"\r",
+									"    var ids = response.map(function(item) {\r",
+									"        return item.id;\r",
+									"    });\r",
+									"    var result = eval(pm.environment.get(\"isSortedAscending\"))(ids);\r",
+									"    pm.expect(result).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"address\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"geolocation\": {\r",
+									"              \"type\": \"object\",\r",
+									"              \"properties\": {\r",
+									"                \"lat\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                },\r",
+									"                \"long\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                }\r",
+									"              },\r",
+									"              \"required\": [\r",
+									"                \"lat\",\r",
+									"                \"long\"\r",
+									"              ]\r",
+									"            },\r",
+									"            \"city\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"street\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"number\": {\r",
+									"              \"type\": \"integer\"\r",
+									"            },\r",
+									"            \"zipcode\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"geolocation\",\r",
+									"            \"city\",\r",
+									"            \"street\",\r",
+									"            \"number\",\r",
+									"            \"zipcode\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"email\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"username\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"password\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"firstname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"lastname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"firstname\",\r",
+									"            \"lastname\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"phone\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"__v\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"address\",\r",
+									"        \"id\",\r",
+									"        \"email\",\r",
+									"        \"username\",\r",
+									"        \"password\",\r",
+									"        \"name\",\r",
+									"        \"phone\",\r",
+									"        \"__v\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"} )\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users?sort=asc",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "Get all products",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"title\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"number\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"category\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"image\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"rating\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"rate\": {\r",
+									"              \"type\": \"number\"\r",
+									"            },\r",
+									"            \"count\": {\r",
+									"              \"type\": \"integer\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"rate\",\r",
+									"            \"count\"\r",
+									"          ]\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"title\",\r",
+									"        \"price\",\r",
+									"        \"description\",\r",
+									"        \"category\",\r",
+									"        \"image\",\r",
+									"        \"rating\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"} )\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"var size = response.length\r",
+									"var index = eval(pm.environment.get(\"randonNumber\"))(size);\r",
+									"\r",
+									"pm.test(\"Capturar user id\", function(){    \r",
+									"    console.log(index)\r",
+									"    pm.globals.set(\"productID\", response[index].id)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/products",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new cart",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"timestamp\"))(\"YYYY-MM-DD\")\r",
+									"\r",
+									"pm.globals.unset(\"schema\")\r",
+									"\r",
+									"pm.globals.set(\"schema\", {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"userId\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"date\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"products\": {\r",
+									"      \"type\": \"array\",\r",
+									"      \"items\": [\r",
+									"        {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"productId\": {\r",
+									"              \"type\": \"integer\"\r",
+									"            },\r",
+									"            \"quantity\": {\r",
+									"              \"type\": \"integer\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"productId\",\r",
+									"            \"quantity\"\r",
+									"          ]\r",
+									"        }\r",
+									"      ]\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"id\",\r",
+									"    \"userId\",\r",
+									"    \"date\",\r",
+									"    \"products\"\r",
+									"  ]\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validar compra de produto\", function(){    \r",
+									"    pm.expect(response.userId).to.be.eq(pm.globals.get(\"userID\"))\r",
+									"    pm.expect(response.products[0].productId).to.be.eq(pm.globals.get(\"productID\"))\r",
+									"    pm.globals.set(\"cardID\", response.id)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": {{userID}},\r\n    \"date\": \"{{todayDate}}\",\r\n    \"products\": [\r\n        {\r\n            \"productId\": {{productID}},\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/carts",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca nova usuário",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"address\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"geolocation\": {\r",
+									"              \"type\": \"object\",\r",
+									"              \"properties\": {\r",
+									"                \"lat\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                },\r",
+									"                \"long\": {\r",
+									"                  \"type\": \"string\"\r",
+									"                }\r",
+									"              },\r",
+									"              \"required\": [\r",
+									"                \"lat\",\r",
+									"                \"long\"\r",
+									"              ]\r",
+									"            },\r",
+									"            \"city\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"street\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"number\": {\r",
+									"              \"type\": \"integer\"\r",
+									"            },\r",
+									"            \"zipcode\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"geolocation\",\r",
+									"            \"city\",\r",
+									"            \"street\",\r",
+									"            \"number\",\r",
+									"            \"zipcode\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"email\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"username\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"password\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"firstname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"lastname\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"firstname\",\r",
+									"            \"lastname\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"phone\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"__v\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"address\",\r",
+									"        \"id\",\r",
+									"        \"email\",\r",
+									"        \"username\",\r",
+									"        \"password\",\r",
+									"        \"name\",\r",
+									"        \"phone\",\r",
+									"        \"__v\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"} )\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"var size = response.length\r",
+									"var index = eval(pm.environment.get(\"randonNumber\"))(size);\r",
+									"\r",
+									"pm.test(\"Capturar user id\", function(){    \r",
+									"    console.log(index)\r",
+									"    pm.globals.set(\"updateUserID\", response[index].id)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a product",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"pm.globals.set(\"schema\", {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"userId\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"id\",\r",
+									"    \"userId\"\r",
+									"  ]\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validar compra de produto\", function(){    \r",
+									"    pm.expect(response.userId).to.be.eq(pm.globals.get(\"updateUserID\"))\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": {{updateUserID}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/carts/{{cardID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"carts",
+								"{{cardID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Get a single users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									"\r",
+									"pm.test(\"Capturar dados para login\", function(){    \r",
+									"    pm.globals.set(\"userName\", response.username)\r",
+									"    pm.globals.set(\"password\", response.password)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"\r",
+									"pm.globals.set(\"schema\",{\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"address\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"geolocation\": {\r",
+									"          \"type\": \"object\",\r",
+									"          \"properties\": {\r",
+									"            \"lat\": {\r",
+									"              \"type\": \"string\"\r",
+									"            },\r",
+									"            \"long\": {\r",
+									"              \"type\": \"string\"\r",
+									"            }\r",
+									"          },\r",
+									"          \"required\": [\r",
+									"            \"lat\",\r",
+									"            \"long\"\r",
+									"          ]\r",
+									"        },\r",
+									"        \"city\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"street\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"number\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"zipcode\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"geolocation\",\r",
+									"        \"city\",\r",
+									"        \"street\",\r",
+									"        \"number\",\r",
+									"        \"zipcode\"\r",
+									"      ]\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"username\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"password\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"name\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"firstname\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"lastname\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"firstname\",\r",
+									"        \"lastname\"\r",
+									"      ]\r",
+									"    },\r",
+									"    \"phone\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"__v\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"address\",\r",
+									"    \"id\",\r",
+									"    \"email\",\r",
+									"    \"username\",\r",
+									"    \"password\",\r",
+									"    \"name\",\r",
+									"    \"phone\",\r",
+									"    \"__v\"\r",
+									"  ]\r",
+									"} )\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/{{userID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.unset(\"schema\")\r",
+									"pm.globals.set(\"schema\", {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"token\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"token\"\r",
+									"  ]\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response= pm.response.json()\r",
+									"\r",
+									"var statusCode = 200\r",
+									"eval(pm.environment.get(\"statusCodeTest\"))(statusCode);\r",
+									"\r",
+									"var contract = pm.globals.get(\"schema\")\r",
+									"eval(pm.environment.get(\"contractTest\"))(contract);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{userName}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
